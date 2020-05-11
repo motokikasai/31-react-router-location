@@ -9,9 +9,8 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <Switch>
-            <Route exact path="/">
-              <Location />
-            </Route>
+            <Route exact path="/" component={Location} />
+
             <Route>
               <h3>404 Not Found</h3>
               <h1>¯\_(ツ)_/¯</h1>
