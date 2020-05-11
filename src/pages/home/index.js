@@ -26,6 +26,14 @@ export default class HomePage extends Component {
     // this.props.location && console.log(this.props.location.search);
     const paramValue = GetSearchParams(this.props.location.search);
     console.log(paramValue);
+
+    console.log(decodeURIComponent(paramValue.language));
+
+    if (paramValue.language === "english") {
+      this.setState({
+        English: true,
+      });
+    }
   }
 
   render() {
@@ -57,27 +65,47 @@ export default class HomePage extends Component {
               <label className="form-field__label">Language</label>
 
               <label className="checkbox-field">
-                <input name="language" type="checkbox" />
+                <input
+                  name="language"
+                  type="checkbox"
+                  checked={this.state.English}
+                />
                 <span className="checkbox-field__label">English</span>
               </label>
 
               <label className="checkbox-field">
-                <input name="language" type="checkbox" />
+                <input
+                  name="language"
+                  type="checkbox"
+                  defaultChecked={this.state.German}
+                />
                 <span className="checkbox-field__label">German</span>
               </label>
 
               <label className="checkbox-field">
-                <input name="language" type="checkbox" />
+                <input
+                  name="language"
+                  type="checkbox"
+                  defaultChecked={this.state.Italian}
+                />
                 <span className="checkbox-field__label">Italian</span>
               </label>
 
               <label className="checkbox-field">
-                <input name="language" type="checkbox" />
+                <input
+                  name="language"
+                  type="checkbox"
+                  defaultChecked={this.state.Russian}
+                />
                 <span className="checkbox-field__label">Chineese</span>
               </label>
 
               <label className="checkbox-field">
-                <input name="language" type="checkbox" />
+                <input
+                  name="language"
+                  type="checkbox"
+                  defaultChecked={this.state.Chinese}
+                />
                 <span className="checkbox-field__label">Russian</span>
               </label>
             </div>
