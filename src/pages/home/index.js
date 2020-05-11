@@ -14,11 +14,11 @@ export default class HomePage extends Component {
       chinese: false,
       russian: false,
       // book type
-      eBook: false,
-      Paperback: false,
-      Hardcover: false,
+      ebook: false,
+      paperback: false,
+      hardcover: false,
       // rating
-      Rating: false,
+      rating: false,
     };
   }
 
@@ -33,6 +33,8 @@ export default class HomePage extends Component {
       .split(",");
     console.log(arrLang);
 
+    // const arrType =
+
     arrLang.forEach((item) => {
       if (this.state.hasOwnProperty(item)) {
         this.setState({
@@ -44,7 +46,7 @@ export default class HomePage extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "blue" }}>
+      <div style={{ backgroundColor: "CadetBlue" }}>
         <div className="home-page">
           <h1>Filters</h1>
 
