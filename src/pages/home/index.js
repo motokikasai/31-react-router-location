@@ -8,11 +8,11 @@ export default class HomePage extends Component {
 
     this.state = {
       // lang
-      English: false,
-      German: false,
-      Italian: false,
-      Chinese: false,
-      Russian: false,
+      english: false,
+      german: false,
+      italian: false,
+      chinese: false,
+      russian: false,
       // book type
       eBook: false,
       Paperback: false,
@@ -27,13 +27,19 @@ export default class HomePage extends Component {
     const paramValue = GetSearchParams(this.props.location.search);
     console.log(paramValue);
 
-    console.log(decodeURIComponent(paramValue.language));
+    console.log(decodeURIComponent(paramValue.language).toLowerCase());
+    const arrLang = decodeURIComponent(paramValue.language.toLowerCase())
+      .replace(" ", ",")
+      .split(",");
+    console.log(arrLang);
 
-    if (paramValue.language === "english") {
-      this.setState({
-        English: true,
-      });
-    }
+    arrLang.forEach((item) => {
+      if (this.state.hasOwnProperty(item)) {
+        this.setState({
+          [item]: true,
+        });
+      }
+    });
   }
 
   render() {
@@ -68,7 +74,8 @@ export default class HomePage extends Component {
                 <input
                   name="language"
                   type="checkbox"
-                  checked={this.state.English}
+                  readOnly
+                  checked={this.state.english}
                 />
                 <span className="checkbox-field__label">English</span>
               </label>
@@ -77,7 +84,8 @@ export default class HomePage extends Component {
                 <input
                   name="language"
                   type="checkbox"
-                  defaultChecked={this.state.German}
+                  readOnly
+                  checked={this.state.german}
                 />
                 <span className="checkbox-field__label">German</span>
               </label>
@@ -86,7 +94,8 @@ export default class HomePage extends Component {
                 <input
                   name="language"
                   type="checkbox"
-                  defaultChecked={this.state.Italian}
+                  readOnly
+                  checked={this.state.italian}
                 />
                 <span className="checkbox-field__label">Italian</span>
               </label>
@@ -95,7 +104,8 @@ export default class HomePage extends Component {
                 <input
                   name="language"
                   type="checkbox"
-                  defaultChecked={this.state.Russian}
+                  readOnly
+                  checked={this.state.russian}
                 />
                 <span className="checkbox-field__label">Chineese</span>
               </label>
@@ -104,7 +114,8 @@ export default class HomePage extends Component {
                 <input
                   name="language"
                   type="checkbox"
-                  defaultChecked={this.state.Chinese}
+                  readOnly
+                  checked={this.state.chinese}
                 />
                 <span className="checkbox-field__label">Russian</span>
               </label>
