@@ -5,7 +5,7 @@ function getSearchParams(url) {
   const urlObj = urlArr.reduce((acc, curr) => {
     const arrKeyValue = curr.split("=");
     acc[arrKeyValue[0]] = arrKeyValue[1];
-    console.log(acc);
+    // console.log(acc);
     return acc;
   }, {});
 

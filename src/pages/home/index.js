@@ -3,9 +3,29 @@ import "./index.css";
 import GetSearchParams from "../helper/getSearchParams";
 
 export default class HomePage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      // lang
+      English: false,
+      German: false,
+      Italian: false,
+      Chinese: false,
+      Russian: false,
+      // book type
+      eBook: false,
+      Paperback: false,
+      Hardcover: false,
+      // rating
+      Rating: false,
+    };
+  }
+
   componentDidMount() {
-    this.props.location && console.log(this.props.location.search);
-    // GetSearchParams();
+    // this.props.location && console.log(this.props.location.search);
+    const paramValue = GetSearchParams(this.props.location.search);
+    console.log(paramValue);
   }
 
   render() {
