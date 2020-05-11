@@ -29,7 +29,7 @@ export default class HomePage extends Component {
 
     console.log(decodeURIComponent(paramValue.language).toLowerCase());
     const arrLang = decodeURIComponent(paramValue.language.toLowerCase())
-      .replace(" ", ",")
+      .replace(/ /g, ",")
       .split(",");
     console.log(arrLang);
 
@@ -105,9 +105,9 @@ export default class HomePage extends Component {
                   name="language"
                   type="checkbox"
                   readOnly
-                  checked={this.state.russian}
+                  checked={this.state.chinese}
                 />
-                <span className="checkbox-field__label">Chineese</span>
+                <span className="checkbox-field__label">Chinese</span>
               </label>
 
               <label className="checkbox-field">
@@ -115,7 +115,7 @@ export default class HomePage extends Component {
                   name="language"
                   type="checkbox"
                   readOnly
-                  checked={this.state.chinese}
+                  checked={this.state.russian}
                 />
                 <span className="checkbox-field__label">Russian</span>
               </label>
