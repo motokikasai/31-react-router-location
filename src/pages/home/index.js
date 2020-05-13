@@ -30,42 +30,48 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     const paramValue = GetSearchParams(this.props.location.search);
-    console.log(paramValue);
+    // console.log(paramValue);
 
     // console.log(Object.keys(paramValue));
-    const mappedQueryParams = Object.keys(paramValue).map((item) => {
-      const arrQueryParamItem = decodeURIComponent(
-        paramValue[item].toLowerCase()
-      )
-        .replace(/ /g, ",")
-        .replace("-", "")
-        .split(",");
-      // console.log(arrQueryParamItem);
+    if (this.props.location.search === "") {
+      return;
+    } else {
+      const mappedQueryParams = Object.keys(paramValue).map((item) => {
+        const arrQueryParamItem = decodeURIComponent(
+          paramValue[item].toLowerCase()
+        )
+          .replace(/ /g, ",")
+          .replace("-", "")
+          .split(",");
+        // console.log(arrQueryParamItem);
 
-      return arrQueryParamItem;
-    });
+        return arrQueryParamItem;
+      });
 
-    // console.log(mappedQueryParams);
-    const combinedArr = [
-      ...mappedQueryParams[0],
-      ...mappedQueryParams[1],
-      ...mappedQueryParams[2],
-      ...mappedQueryParams[3],
-    ];
-    console.log(combinedArr);
+      // console.log(mappedQueryParams);
+      const combinedArr = mappedQueryParams.reduce((acc, curr) => {
+        let newArr = acc.concat(curr);
 
-    combinedArr.forEach((item) => {
-      if (this.state.hasOwnProperty(item)) {
-        this.setState({
-          [item]: true,
-        });
-      }
-    });
+        return newArr;
+      }, []);
+
+      console.log(combinedArr);
+
+      combinedArr.forEach((item) => {
+        if (this.state.hasOwnProperty(item)) {
+          this.setState({
+            [item]: true,
+          });
+        }
+      });
+    }
 
     // console.log(decodeURIComponent(paramValue.searchTerm).replace("-", " "));
     this.setState({
       rating: paramValue.customerRating,
-      term: decodeURIComponent(paramValue.searchTerm).replace("-", " "),
+      term: decodeURIComponent(paramValue.searchTerm)
+        .replace("-", " ")
+        .toLowerCase(),
     });
   }
 
