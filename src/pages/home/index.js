@@ -7,7 +7,7 @@ export default class HomePage extends Component {
     super(props);
 
     this.state = {
-      // lang
+      // language
       english: false,
       german: false,
       italian: false,
@@ -18,29 +18,72 @@ export default class HomePage extends Component {
       paperback: false,
       hardcover: false,
       // rating
-      rating: false,
+      rating: 0,
+      // search term
+      term: "",
     };
+
+    this.textInputHandler = this.textInputHandler.bind(this);
+    this.checkboxHandler = this.checkboxHandler.bind(this);
+    this.radioHandler = this.radioHandler.bind(this);
   }
 
   componentDidMount() {
-    // this.props.location && console.log(this.props.location.search);
     const paramValue = GetSearchParams(this.props.location.search);
     console.log(paramValue);
 
-    console.log(decodeURIComponent(paramValue.language).toLowerCase());
-    const arrLang = decodeURIComponent(paramValue.language.toLowerCase())
-      .replace(/ /g, ",")
-      .split(",");
-    console.log(arrLang);
+    // console.log(Object.keys(paramValue));
+    const mappedQueryParams = Object.keys(paramValue).map((item) => {
+      const arrQueryParamItem = decodeURIComponent(
+        paramValue[item].toLowerCase()
+      )
+        .replace(/ /g, ",")
+        .replace("-", "")
+        .split(",");
+      // console.log(arrQueryParamItem);
 
-    // const arrType =
+      return arrQueryParamItem;
+    });
 
-    arrLang.forEach((item) => {
+    // console.log(mappedQueryParams);
+    const combinedArr = [
+      ...mappedQueryParams[0],
+      ...mappedQueryParams[1],
+      ...mappedQueryParams[2],
+      ...mappedQueryParams[3],
+    ];
+    console.log(combinedArr);
+
+    combinedArr.forEach((item) => {
       if (this.state.hasOwnProperty(item)) {
         this.setState({
           [item]: true,
         });
       }
+    });
+
+    // console.log(decodeURIComponent(paramValue.searchTerm).replace("-", " "));
+    this.setState({
+      rating: paramValue.customerRating,
+      term: decodeURIComponent(paramValue.searchTerm).replace("-", " "),
+    });
+  }
+
+  textInputHandler(e) {
+    this.setState({
+      term: e.target.value,
+    });
+  }
+
+  checkboxHandler(e) {
+    this.setState({
+      [e.target.name]: !this.state[e.target.name],
+    });
+  }
+
+  radioHandler(e) {
+    this.setState({
+      rating: e.target.id,
     });
   }
 
@@ -55,7 +98,12 @@ export default class HomePage extends Component {
             <div className="form-field">
               <label className="form-field__label">Search</label>
 
-              <input name="search-term" type="text" />
+              <input
+                name="search-term"
+                type="text"
+                value={this.state.term}
+                onChange={this.textInputHandler}
+              />
             </div>
 
             {/* Used */}
@@ -74,9 +122,9 @@ export default class HomePage extends Component {
 
               <label className="checkbox-field">
                 <input
-                  name="language"
+                  name="english"
                   type="checkbox"
-                  readOnly
+                  onChange={this.checkboxHandler}
                   checked={this.state.english}
                 />
                 <span className="checkbox-field__label">English</span>
@@ -84,9 +132,9 @@ export default class HomePage extends Component {
 
               <label className="checkbox-field">
                 <input
-                  name="language"
+                  name="german"
                   type="checkbox"
-                  readOnly
+                  onChange={this.checkboxHandler}
                   checked={this.state.german}
                 />
                 <span className="checkbox-field__label">German</span>
@@ -94,9 +142,9 @@ export default class HomePage extends Component {
 
               <label className="checkbox-field">
                 <input
-                  name="language"
+                  name="italian"
                   type="checkbox"
-                  readOnly
+                  onChange={this.checkboxHandler}
                   checked={this.state.italian}
                 />
                 <span className="checkbox-field__label">Italian</span>
@@ -104,9 +152,9 @@ export default class HomePage extends Component {
 
               <label className="checkbox-field">
                 <input
-                  name="language"
+                  name="chinese"
                   type="checkbox"
-                  readOnly
+                  onChange={this.checkboxHandler}
                   checked={this.state.chinese}
                 />
                 <span className="checkbox-field__label">Chinese</span>
@@ -114,9 +162,9 @@ export default class HomePage extends Component {
 
               <label className="checkbox-field">
                 <input
-                  name="language"
+                  name="russian"
                   type="checkbox"
-                  readOnly
+                  onChange={this.checkboxHandler}
                   checked={this.state.russian}
                 />
                 <span className="checkbox-field__label">Russian</span>
@@ -128,15 +176,30 @@ export default class HomePage extends Component {
               <label className="form-field__label">Book type</label>
 
               <label className="checkbox-field">
-                <input name="book-type" type="checkbox" />
+                <input
+                  name="ebook"
+                  type="checkbox"
+                  checked={this.state.ebook}
+                  onChange={this.checkboxHandler}
+                />
                 <span className="checkbox-field__label">E-Book</span>
               </label>
               <label className="checkbox-field">
-                <input name="book-type" type="checkbox" />
+                <input
+                  name="paperback"
+                  type="checkbox"
+                  checked={this.state.paperback}
+                  onChange={this.checkboxHandler}
+                />
                 <span className="checkbox-field__label">Paperback</span>
               </label>
               <label className="checkbox-field">
-                <input name="book-type" type="checkbox" />
+                <input
+                  name="hardcover"
+                  type="checkbox"
+                  checked={this.state.hardcover}
+                  onChange={this.checkboxHandler}
+                />
                 <span className="checkbox-field__label">Hardcover</span>
               </label>
             </div>
@@ -145,27 +208,57 @@ export default class HomePage extends Component {
             <div className="form-field">
               <label className="form-field__label">Rating</label>
               <label className="radio-field">
-                <input name="customer-rating" type="radio" />
+                <input
+                  id="1"
+                  name="customer-rating"
+                  type="radio"
+                  checked={this.state.rating === "1" && true}
+                  onChange={this.radioHandler}
+                />
                 <span className="radio-field__label">1 and up</span>
               </label>
 
               <label className="radio-field">
-                <input name="customer-rating" type="radio" />
+                <input
+                  id="2"
+                  name="customer-rating"
+                  type="radio"
+                  checked={this.state.rating === "2" && true}
+                  onChange={this.radioHandler}
+                />
                 <span className="radio-field__label">2 and up</span>
               </label>
 
               <label className="radio-field">
-                <input name="customer-rating" type="radio" />
+                <input
+                  id="3"
+                  name="customer-rating"
+                  type="radio"
+                  checked={this.state.rating === "3" && true}
+                  onChange={this.radioHandler}
+                />
                 <span className="radio-field__label">3 and up</span>
               </label>
 
               <label className="radio-field">
-                <input name="customer-rating" type="radio" />
+                <input
+                  id="4"
+                  name="customer-rating"
+                  type="radio"
+                  checked={this.state.rating === "4" && true}
+                  onChange={this.radioHandler}
+                />
                 <span className="radio-field__label">4 and up</span>
               </label>
 
               <label className="radio-field">
-                <input name="customer-rating" type="radio" />
+                <input
+                  id="5"
+                  name="customer-rating"
+                  type="radio"
+                  checked={this.state.rating === "5" && true}
+                  onChange={this.radioHandler}
+                />
                 <span className="radio-field__label">5 and up</span>
               </label>
             </div>

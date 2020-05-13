@@ -1,6 +1,6 @@
-function getSearchParams(url) {
+function getSearchParams(queryParams) {
   // eg) :3000/?customerRating=5&bookType=paperback,hardcover&language=english,german
-  const urlArr = url.slice(1).split("&");
+  const urlArr = queryParams.slice(1).split("&");
 
   const urlObj = urlArr.reduce((acc, curr) => {
     const arrKeyValue = curr.split("=");
